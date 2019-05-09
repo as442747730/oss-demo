@@ -1,0 +1,48 @@
+body,h1,h2,h3,p,dl,dd {
+  margin: 0;
+}
+html,body {
+  width: 100%;
+  height: 100%;
+}
+ul,ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+img {
+  vertical-align: top;
+}
+a {
+  text-decoration: none;
+  color: #606266;
+}
+/* 树形菜单选中颜色 */
+.is-current > .el-tree-node__content {
+  background-color: #3399ff !important;
+  color: #fff !important;
+}
+.is-current > .el-tree-node__content > .el-tree-node__expand-icon {
+  color: #fff !important;
+}
+.is-current > .el-tree-node__content > .is-leaf {
+  color: transparent !important;
+} 
+.el-tree-node > .el-tree-node__content:hover {
+  background-color: #57adec !important;
+  color: #fff !important;
+}
+.el-tree-node > .el-tree-node__content:hover > .el-tree-node__expand-icon {
+  color: #fff !important;
+}
+.el-tree-node > .el-tree-node__content:hover > .is-leaf {
+  color: transparent !important;
+} 
+/* 表格高度 */
+.el-table td, .el-table th {
+  padding: 8px 0 !important;
+}
+.el-scrollbar__wrap {
+  overflow-x: hidden !important;
+  padding-bottom: 20px;
+}
