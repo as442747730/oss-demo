@@ -27,16 +27,17 @@
 
 ## Api
 
-### api 二次封装axios
-### index 页面所有请求，可拆分
+> api 二次封装axios
+> index 页面所有请求，可拆分
 
 ## router
 
-### index 入口文件
+> index 入口文件
 
-### ContentManagement 内容管理路由
-### organization 组织管理路由
-### MomberManagement 会员管理路由
+> modules 组件化router文件夹
+>> ContentManagement 内容管理路由
+>> organization 组织管理路由
+>> MomberManagement 会员管理路由
 
 ## views 界面UI层
 
