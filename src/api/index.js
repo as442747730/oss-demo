@@ -54,4 +54,4 @@ export const GetShopCourse = (params) => ajax(BASE_URL + '/Course/GetShopCourse'
 // 修改课程上下架
 export const IsEnableCourse = (params) => ajax(BASE_URL + '/Course/IsEnableCourse', params)
 // 课程绑定分类
-export const AddCourseJoinClassify = (params) => ajax(BASE_URL + '/Course/AddCourseJoinClassify', params)
+export const AddCourseJoinClassify = (params) => ajax(BASE_URL + '/Course/AddCourseJoinClassify', params, 'POST')

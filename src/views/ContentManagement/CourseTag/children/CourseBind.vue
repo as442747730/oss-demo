@@ -14,7 +14,7 @@
         :table="bindTable"
         :total="bindTotal"
         :pageSite="'page-right'"
-        :height="300"
+        :height="200"
       ></tl-table>
     </section>
     <section class="bind-course">
@@ -28,9 +28,13 @@
         :table="unBindTable"
         :total="unBindTotal"
         :pageSite="'page-right'"
-        :height="300"
+        :height="200"
       ></tl-table>
     </section>
+    <div class="bind-btn">
+      <el-button size="small">取消</el-button>
+      <el-button type="primary" size="small">确定</el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -195,6 +199,14 @@ export default {
     }
     .search-box {
       width: 256px;
+    }
+  }
+  .bind-btn {
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-around;
+    .el-button {
+      padding: 10px 50px;
     }
   }
 }

@@ -22,7 +22,7 @@ axios.interceptors.request.use(config => {
 }, error => {
   return Promise.reject(error)
 })
-// 相应拦截
+// 响应拦截
 axios.interceptors.response.use(response => {
   endLoading()
   return response
@@ -56,6 +56,10 @@ export default function ajax (url = '', params = {}, type = 'GET') {
       resolve(reqponse.data)
     }).catch(error => {
       reject(error)
+      Message({
+        message: '数据库连接失败',
+        type: 'error'
+      })
     })
   })
 }

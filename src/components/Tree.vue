@@ -5,6 +5,7 @@
       :show-checkbox="checkbox"
       :data="GetAllClass"
       :props="defaultProps"
+      :check-strictly="true"
       node-key="CommonTypeID"
       @node-click="handleNodeClick"
       @check-change="getCheckedNodes"
@@ -34,10 +35,12 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('GetAllClass', {
-      classifyID: 0,
-      name: ''
-    })
+    if (!this.checkbox) {
+      this.$store.dispatch('GetAllClass', {
+        classifyID: 0,
+        name: ''
+      })
+    }
   },
   computed: {
     ...mapState(['GetAllClass'])

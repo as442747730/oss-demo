@@ -4,7 +4,7 @@
       <!-- <strong class="title">{{$route.name}}</strong> -->
       <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb-inner">
         <transition-group name="breadcrumb" mode="out-in">
-          <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
+          <el-breadcrumb-item v-for="item in $route.matched" :key="item.path" @click.native="navClick(item)">
             {{ item.name }}
           </el-breadcrumb-item>
         </transition-group>
@@ -14,7 +14,12 @@
 </template>
 <script>
 export default {
-  name: 'Navigation'
+  name: 'Navigation',
+  methods: {
+    navClick (val) {
+      console.log(val)
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

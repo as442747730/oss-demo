@@ -50,7 +50,25 @@ export default {
   data () {
     return {
       placeholder: '请输入课程名称查找',
-      tabs: ['全部', '已审核', '未审核', '未通过'],
+      // tabs: ['全部', '已审核', '未审核', '未通过'],
+      tabs: [
+        {
+          label: '全部',
+          name: -1
+        },
+        {
+          label: '已审核',
+          name: 1
+        },
+        {
+          label: '未审核',
+          name: 0
+        },
+        {
+          label: '未通过',
+          name: 2
+        }
+      ],
       // 表格数据
       dataTable: {
         border: true,
@@ -152,15 +170,7 @@ export default {
     },
     // 选项卡切换
     tabClick (val) {
-      if (!val) {
-        this.courseStatus = -1
-      } else if (val === 1) {
-        this.courseStatus = 1
-      } else if (val === 2) {
-        this.courseStatus = 0
-      } else if (val === 3) {
-        this.courseStatus = 2
-      }
+      this.courseStatus = val
       this._getCourse()
     },
     // 状态更改
@@ -203,9 +213,6 @@ export default {
   .course-nav {
     display: flex;
     justify-content: space-between;
-    .course-tab {
-      width: 485px;
-    }
   }
   .company-table {
     padding-top: 15px;

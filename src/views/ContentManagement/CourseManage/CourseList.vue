@@ -11,6 +11,7 @@
     <div class="course-table">
       <tl-table
         :table="dataTable"
+        :total="tableTotal"
         @handleAdd="handleAdd"
         @handleDiscuss="handleDiscuss"
       >
@@ -28,7 +29,7 @@
             @change="changeSwitch(props.obj.row)"
           >
           </el-switch>
-          <span style="padding-left: 5px">{{props.obj.row.IsEnable?"已上架":"未上架"}}</span>
+          <span style="padding-left: 5px">{{props.obj.row.IsEnable?"已上架":"待上架"}}</span>
         </template>
         <template slot-scope="scope" slot="examine">
           <el-select v-model="scope.obj.row.IsAudit" placeholder="请选择部门" size="small" @change="selectClick(scope.obj.row)">
@@ -44,7 +45,7 @@
       </tl-table>
     </div>
     <!-- 添加分类 -->
-    <select-class v-if="isAddClass" @closeDialog="closeDialog"></select-class>
+    <select-class v-if="isAddClass" @closeDialog="closeDialog" :courseData="oneData"></select-class>
   </div>
 </template>
 <script>
@@ -59,7 +60,33 @@ export default {
   data () {
     return {
       placeholder: '请选择企业',
-      tabs: ['全部', '已上架', '待上架', '已审核', '未审核', '未通过'],
+      // tabs: ['全部', '已上架', '待上架', '已审核', '未审核', '未通过'],
+      tabs: [
+        {
+          label: '全部',
+          name: -1
+        },
+        {
+          label: '已上架',
+          name: 3
+        },
+        {
+          label: '待上架',
+          name: 4
+        },
+        {
+          label: '已审核',
+          name: 1
+        },
+        {
+          label: '未审核',
+          name: 0
+        },
+        {
+          label: '未通过',
+          name: 2
+        }
+      ],
       dataTable: {
         border: true,
         hasOperation: true,
@@ -122,7 +149,7 @@ export default {
           className: '', // 操作列的class名
           data: [ // 操作列数据
             {
-              label: '添加分类', // 按钮文字
+              label: '关联分类', // 按钮文字
               Fun: 'handleAdd', // 点击按钮后触发的父组件事件
               size: 'mini', // 按钮大小
               id: '1', // 按钮循环组件的key值
@@ -153,8 +180,12 @@ export default {
           label: '未通过'
         }
       ],
+      // 总条数
+      tableTotal: 0,
       // 课程名称
       courseName: '',
+      // 选中数据
+      oneData: null,
       pagesize: 15,
       pageindex: 1,
       state: -1,
@@ -180,25 +211,13 @@ export default {
     },
     // 选项卡点击
     tabClick (val) {
-      if (!val) {
-        this.state = -1
-      } else if (val === 1) {
-        this.state = 3
-      } else if (val === 2) {
-        this.state = 4
-      } else if (val === 3) {
-        this.state = 1
-      } else if (val === 4) {
-        this.state = 0
-      } else if (val === 5) {
-        this.state = 2
-      }
+      this.state = val
       this._getCourseList()
     },
     // 添加分类
     handleAdd (val) {
+      this.oneData = val
       this.isAddClass = true
-      console.log(val)
     },
     async selectClick (val) {
       let result = await UpdateCourseAudit({
@@ -238,6 +257,7 @@ export default {
   watch: {
     shopCourse (val) {
       this.dataTable.data = val.Data
+      this.tableTotal = val.Count
     }
   },
   components: {
@@ -253,9 +273,6 @@ export default {
   .course-nav {
     display: flex;
     justify-content: space-between;
-    .course-tab {
-      width: 485px;
-    }
   }
   .course-table {
     padding-top: 15px;

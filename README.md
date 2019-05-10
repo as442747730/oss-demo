@@ -1,21 +1,33 @@
-# xlxl
+# 目录结构
 
-> A Vue.js project
+## 公共组件
 
-## Build Setup
+>> AddBtn 添加新建按钮
+>> DateOicker 日期筛选组件
+>> DelDialog 删除弹窗
+>> DepDialog 部门下拉框
+>> GoBack 返回上一页
+>> PsdDialog 密码重置弹窗
+>> SearchBox 搜索框组件
+>> Table 表格组件
+>> Tabs 选项卡组件
+>> Tree 树形菜单组件
+>> UpdateImg 图片上传组件
 
-``` bash
-# install dependencies
-npm install
+## Api
 
-# serve with hot reload at localhost:8080
-npm run dev
+>> api 二次封装axios
+>> index 页面所有请求，可拆分
 
-# build for production with minification
-npm run build
+## router
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+>> index 入口文件
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+>> ContentManagement 内容管理路由
+>> organization 组织管理路由
+>> MomberManagement 会员管理路由
+
+## store
+
+>> 
+

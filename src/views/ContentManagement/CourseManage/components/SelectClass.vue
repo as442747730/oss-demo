@@ -19,15 +19,25 @@
       </div>
     </div>
     <div class="class-btn">
-      <el-button @click="closeDialog" size="small">取消</el-button>
-      <el-button type="primary" size="small">确认</el-button>
+      <el-button @click="dialogTableVisible=false" size="small">取消</el-button>
+      <el-button type="primary" size="small" @click="submitClass">确认</el-button>
     </div>
   </el-dialog>
 </template>
 <script>
 import Tree from '@/components/Tree'
+import { AddCourseJoinClassify } from '@/api/index'
 export default {
   name: 'SelectClass',
+  props: {
+    courseData: {
+      type: Object,
+      default: () => { return {} }
+    }
+  },
+  created () {
+    console.log(this.courseData)
+  },
   data () {
     return {
       dialogTableVisible: true,
@@ -41,6 +51,27 @@ export default {
     },
     setCheck (tag) {
       this.dynamicTags = tag
+    },
+    async submitClass () {
+      let classifyID = []
+      this.dynamicTags.forEach(item => {
+        classifyID.push(item.CommonTypeID)
+      })
+      let result = await AddCourseJoinClassify({
+        courseID: this.courseData.CourseID,
+        classifyID
+      })
+      let message = ''
+      if (result.Code === 200) {
+        message = '绑定分类成功'
+      } else {
+        message = '存在已关联分类，请重新选择'
+      }
+      console.log(result)
+      this.$message({
+        message,
+        type: result.Code === 200 ? 'success' : 'error'
+      })
     }
   },
   watch: {
@@ -55,7 +86,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .class-dialog {
-  min-height: 400px;
+  min-height: 200px;
   display: flex;
   flex-direction: row;
 }
