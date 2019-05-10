@@ -43,42 +43,54 @@
 
 ## views 界面UI层
 
-### ContentManagement 内容管理
+> ContentManagement 内容管理
 
-#### CompanyCourse 企业课程列表
+>> CompanyCourse 企业课程列表
 
-#### CourseManage 课程商课程管理
-##### CourseList  课程商课程列表
-##### CourseComment 课程评论列表
-##### CourseClass 课程分类
+>> CourseManage 课程商课程管理
 
-##### conponent 企业课程列表组件
+>>> CourseList  课程商课程列表
 
-###### AddClass 添加分类dialog
-###### SelectClass 绑定分类dialog
+>>> CourseComment 课程评论列表
 
-### CourseTag 课程标签管理
+>>> CourseClass 课程分类
 
-#### CourseTag 课程标签列表
-##### CourseBind 标签绑定课程
-##### AddTag 新建标签
+>>> conponent 企业课程列表组件
 
-### Layout UI框架
+>>>> AddClass 添加分类dialog
 
-#### NavBar 顶部导航
-#### Navigation 面包屑导航
-#### SideBar 侧边栏
+>>>> SelectClass 绑定分类dialog
 
-### MomberManagement 会员管理
+>> CourseTag 课程标签管理
 
-#### PersonalList 会员列表
-#### ChainBusinessList 企业列表
-#### LecturerMemberList 讲师列表
-#### AgencyMembersList 机构会员列表
-#### ManufacturingList 制造业会员列表
+>>> CourseTag 课程标签列表
 
-### Organization 组织管理
+>>> children 子分类
 
-#### RoleManage 权限管理
-#### PositionManagement 部门管理
-#### PersonalManagement 人员管理
+>>>> CourseBind 标签绑定课程
+
+>>> conponent 子组件
+
+>>>> AddTag 新建标签
+
+> Layout UI框架
+
+>> NavBar 顶部导航
+
+>> Navigation 面包屑导航
+
+>> SideBar 侧边栏
+
+> MomberManagement 会员管理
+
+>> PersonalList 会员列表
+>> ChainBusinessList 企业列表
+>> LecturerMemberList 讲师列表
+>> AgencyMembersList 机构会员列表
+>> ManufacturingList 制造业会员列表
+
+> Organization 组织管理
+
+>> RoleManage 权限管理
+>> PositionManagement 部门管理
+>> PersonalManagement 人员管理
