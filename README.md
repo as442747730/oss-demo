@@ -84,13 +84,19 @@
 > MomberManagement 会员管理
 
 >> PersonalList 会员列表
+
 >> ChainBusinessList 企业列表
+
 >> LecturerMemberList 讲师列表
+
 >> AgencyMembersList 机构会员列表
+
 >> ManufacturingList 制造业会员列表
 
 > Organization 组织管理
 
 >> RoleManage 权限管理
+
 >> PositionManagement 部门管理
+
 >> PersonalManagement 人员管理
