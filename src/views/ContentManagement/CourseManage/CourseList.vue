@@ -248,6 +248,10 @@ export default {
     // 查看评论
     handleDiscuss (val) {
       console.log(val)
+      this.$router.push({
+        name: '课程评论列表',
+        params: val
+      })
     },
     // 关闭dialog
     closeDialog (val) {

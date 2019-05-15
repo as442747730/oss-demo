@@ -32,6 +32,12 @@ export const SetTagSet = (params) => ajax(BASE_URL + '/Course/IsEnableTag', para
 export const GetBindCourse = (params) => ajax(BASE_URL + '/Course/GetBindCourse', params)
 // 未绑定课程
 export const GetUnB1indCourse = (params) => ajax(BASE_URL + '/Course/GetUnB1indCourse', params)
+// 删除课程
+export const DelBindCourse = (params) => ajax(BASE_URL + '/Course/DelBindCourse', params)
+// 标签绑定课程
+export const BindCourse = (params) => ajax(BASE_URL + '/Course/BindCourse', params)
+// 标签绑定课程排序
+export const OrderByCourse = (params) => ajax(BASE_URL + '/Course/OrderByCourse', params)
 // -----------------------------------课程分类管理-----------------------------------
 // 获取课程分类
 export const GetAllClass = (params) => ajax(BASE_URL + '/Course/GetAllClassify', params)
@@ -55,3 +61,9 @@ export const GetShopCourse = (params) => ajax(BASE_URL + '/Course/GetShopCourse'
 export const IsEnableCourse = (params) => ajax(BASE_URL + '/Course/IsEnableCourse', params)
 // 课程绑定分类
 export const AddCourseJoinClassify = (params) => ajax(BASE_URL + '/Course/AddCourseJoinClassify', params, 'POST')
+// 课程评论列表
+export const GetReviewByID = (params) => ajax(BASE_URL + '/Course/GetReviewByID', params)
+// 课程评论状态
+export const ReviewIsEnable = (params) => ajax(BASE_URL + '/Course/ReviewIsEnable', params)
+// 删除课程评论
+export const DelReview = (params) => ajax(BASE_URL + '/Course/DelReview', params)

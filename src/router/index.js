@@ -10,14 +10,24 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/organization'
+      redirect: '/CourseTag'
+    },
+    {
+      path: '/login',
+      name: '登录',
+      component: () => import('@/views/Login/Login')
     },
     // 内容管理
     ContentManagement,
     // 组织管理
     organization,
     // 会员管理
-    MomberManagement
+    MomberManagement,
     // 课程管理页
+    {
+      path: '*',
+      name: '404',
+      component: () => import('@/views/404')
+    }
   ]
 })

@@ -14,8 +14,13 @@
         :table="bindTable"
         :total="bindTotal"
         :pageSite="'page-right'"
-        :height="200"
-      ></tl-table>
+        :height="240"
+        @handleDel="handleDel"
+      >
+        <template slot-scope="props" slot="SortBox">
+          <el-input type="number" v-model="props.obj.row.Sort" @keydown.enter.native="orderCourse(props.obj.row)"></el-input>
+        </template>
+      </tl-table>
     </section>
     <section class="bind-course">
       <div class="bind-nav">
@@ -28,7 +33,8 @@
         :table="unBindTable"
         :total="unBindTotal"
         :pageSite="'page-right'"
-        :height="200"
+        :height="240"
+        @handleBind="handleBind"
       ></tl-table>
     </section>
     <div class="bind-btn">
@@ -41,7 +47,7 @@
 import GoBack from '@/components/GoBack'
 import tlTable from '@/components/Table'
 import SearchBox from '@/components/SearchBox'
-import { GetBindCourse, GetUnB1indCourse } from '@/api/index'
+import { GetBindCourse, GetUnB1indCourse, DelBindCourse, BindCourse, OrderByCourse } from '@/api/index'
 export default {
   name: 'CourseBind',
   data () {
@@ -73,8 +79,10 @@ export default {
           {
             id: '4',
             label: '排序',
-            prop: 'Sort',
-            sort: true
+            prop: 'SortBox',
+            show: 'template',
+            sort: true,
+            minWidth: '30'
           }
         ],
         data: [],
@@ -103,18 +111,18 @@ export default {
           {
             id: '1',
             label: '编号',
-            prop: 'id',
+            prop: 'CourseID',
             minWidth: '80'
           },
           {
             id: '2',
             label: '课程名称',
-            prop: 'name'
+            prop: 'Name'
           },
           {
             id: '3',
             label: '课程分类',
-            prop: 'dep',
+            prop: 'CourseTypeID',
             minWidth: '140'
           }
         ],
@@ -126,7 +134,7 @@ export default {
           data: [ // 操作列数据
             {
               label: '关联', // 按钮文字
-              Fun: 'handleDel', // 点击按钮后触发的父组件事件
+              Fun: 'handleBind', // 点击按钮后触发的父组件事件
               size: 'mini', // 按钮大小
               id: '1', // 按钮循环组件的key值
               classname: 'show', // 按钮的类名
@@ -154,7 +162,7 @@ export default {
     // 获取当前标签名字和ID
     _getTagInfo () {
       this.courseTagID = this.$route.query.courseTagID
-      this.courseTagName = this.$route.query.courseTagName
+      // this.courseTagName = this.$route.query.courseTagName
     },
     // 获取已绑定课程
     async _getCourseBind () {
@@ -176,7 +184,52 @@ export default {
       })
       this.unBindTable.data = unBind.Data
       this.unBindTotal = unBind.Data.length
-      console.log(unBind)
+    },
+    // 删除课程
+    async handleDel (val) {
+      let result = await DelBindCourse({
+        courseTagID: this.courseTagID,
+        courseID: val.CourseID
+      })
+      if (result.Code === 200) {
+        this.$message({
+          message: '删除课程成功',
+          type: 'success'
+        })
+        this._getCourseBind()
+        this._getCourseUnBind()
+      }
+    },
+    // 关联课程标签
+    async handleBind (val) {
+      let result = await BindCourse({
+        courseTagID: this.courseTagID,
+        courseID: val.CourseID
+      })
+      if (result.Code === 200) {
+        this.$message({
+          message: '关联课程成功',
+          type: 'success'
+        })
+        this._getCourseUnBind()
+        this._getCourseBind()
+      }
+    },
+    // 关联标签排序
+    async orderCourse (val) {
+      console.log(val)
+      let result = await OrderByCourse({
+        courseTagID: this.courseTagID,
+        courseID: val.CourseID,
+        sort: Number(val.Sort)
+      })
+      if (result.Code === 200) {
+        this.$message({
+          message: '设置排序成功',
+          type: 'success'
+        })
+        this._getCourseBind()
+      }
     }
   },
   components: {
@@ -202,12 +255,15 @@ export default {
     }
   }
   .bind-btn {
-    margin: 30px 0;
+    margin: 25 px 0 0;
     display: flex;
     justify-content: space-around;
     .el-button {
       padding: 10px 50px;
     }
+  }
+  .el-table td, .el-table th {
+    padding: 1px 0 !important;
   }
 }
 </style>

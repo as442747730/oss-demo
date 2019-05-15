@@ -1,8 +1,8 @@
 <template>
-  <el-dialog title="选择分类" :visible.sync="dialogTableVisible">
+  <el-dialog title="选择分类" :visible.sync="dialogTableVisible" width="40%">
     <div class="class-dialog">
       <div class="left-tree">
-        <tree :checkbox="true" @setCheck="setCheck"></tree>
+        <tree :checkbox="true" @setCheck="setCheck" :checkTree="dynamicTags"></tree>
       </div>
       <div class="right-option">
         <div class="option-container">
@@ -46,13 +46,21 @@ export default {
   },
   methods: {
     handleClose (tag) {
-      console.log(tag)
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1)
     },
     setCheck (tag) {
       this.dynamicTags = tag
     },
     async submitClass () {
+      // 判断是否选择
+      if (this.dynamicTags.length === 0) {
+        this.$message({
+          message: '请选择分类',
+          type: 'error'
+        })
+        return
+      }
+      // 如果已选择提交请求
       let classifyID = []
       this.dynamicTags.forEach(item => {
         classifyID.push(item.CommonTypeID)
@@ -94,7 +102,7 @@ export default {
   flex: 1;
   margin-left: 20px;
   .option-container {
-    width: 65%;
+    // width: 65%;
     min-height: 40px;
     display: flex;
     align-items: center;

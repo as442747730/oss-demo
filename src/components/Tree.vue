@@ -1,7 +1,7 @@
 <template>
   <div class="left-tree">
     <el-tree
-      ref="leftTree"
+      ref="tree"
       :show-checkbox="checkbox"
       :data="GetAllClass"
       :props="defaultProps"
@@ -24,6 +24,10 @@ export default {
     checkbox: {
       type: Boolean,
       default: () => { return false }
+    },
+    checkTree: {
+      type: Array,
+      default: () => { return [] }
     }
   },
   data() {
@@ -35,12 +39,10 @@ export default {
     }
   },
   created () {
-    if (!this.checkbox) {
-      this.$store.dispatch('GetAllClass', {
-        classifyID: 0,
-        name: ''
-      })
-    }
+    this.$store.dispatch('GetAllClass', {
+      classifyID: 0,
+      name: ''
+    })
   },
   computed: {
     ...mapState(['GetAllClass'])
@@ -61,11 +63,22 @@ export default {
     getCheckedNodes() {
       if (this.GetAllClass.length > 0) {
         let checkArr = []
-        this.$refs.leftTree.getCheckedNodes()
-        this.$emit('setCheck', this.$refs.leftTree.getCheckedNodes())
+        this.$refs.tree.getCheckedNodes()
+        this.$emit('setCheck', this.$refs.tree.getCheckedNodes())
       }
+    },
+    setCheckedNodes () {
+      this.$refs.tree.setCheckedNodes(this.checkTree)
     }
-  }
+  },
+  watch: {
+    GetAllClass () {
+      this.setCheckedNodes()
+    },
+    checkTree () {
+      this.setCheckedNodes()
+    }
+  },
 }
 </script>
 <style scoped>

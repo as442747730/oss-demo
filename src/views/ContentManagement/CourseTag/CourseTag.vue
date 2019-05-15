@@ -116,7 +116,8 @@ export default {
               size: 'mini', // 按钮大小
               id: '3', // 按钮循环组件的key值
               classname: 'show', // 按钮的类名
-              type: 'danger'
+              type: 'danger',
+              filterTag: true
             }
           ]
         }
@@ -202,7 +203,6 @@ export default {
     searchTag (val) {
       this.keyword = val
       this._getCourseTag()
-      console.log(val)
     },
     // 关闭弹出层
     closeDialog (val) {

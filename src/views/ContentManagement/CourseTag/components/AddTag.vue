@@ -1,13 +1,13 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible">
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="30%">
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="课程标签" prop="TagName">
         <el-input type="text" v-model="ruleForm.TagName" placeholder="请输入课程标签" @keydown.enter.native="submitForm('ruleForm')"></el-input>
       </el-form-item>
-      <el-form-item align="center">
+      <div class="add-btn">
         <el-button @click="closeDialog">取消</el-button>
         <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
-      </el-form-item>
+      </div>
     </el-form>
   </el-dialog>
 </template>
@@ -102,3 +102,9 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.add-btn {
+  display: flex;
+  justify-content: center;
+}
+</style>

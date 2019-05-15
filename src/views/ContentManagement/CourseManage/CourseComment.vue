@@ -4,18 +4,18 @@
     <go-back></go-back>
     <!-- 搜索框 -->
     <div class="course-search">
-      <span class="coursr-name">课程名称</span>
+      <span class="coursr-name">{{courseTitle}}</span>
       <div class="search-container">
         <search-box :placeholder="placeholder" @searchData="searchData"></search-box>
       </div>
     </div>
     <!-- 表格区域 -->
     <div class="course-tab">
-      <tl-table :table="dataTable" @handleDel="handleDel">
+      <tl-table :table="dataTable" @handleDel="handleDel" :total="tableTotal">
         <template slot-scope="props" slot="username">
           <el-switch
             class="switchStyle"
-            v-model="props.obj.row.switchVal"
+            v-model="props.obj.row.IsShow"
             active-color="#1890ff"
             inactive-color="#d9d9d9"
             :active-value="1"
@@ -23,12 +23,15 @@
             @change="changeSwitch(props.obj.row)"
           >
           </el-switch>
-          <span style="padding-left: 5px">{{props.obj.row.switchVal?"是":"否"}}</span>
+          <span style="padding-left: 5px">{{props.obj.row.IsShow?"是":"否"}}</span>
+        </template>
+        <template slot-scope="props" slot="dateTime">
+          <span>{{props.obj.row.AddTime | dataFormat}}</span>
         </template>
       </tl-table>
     </div>
     <!-- 删除弹出框 -->
-    <del-dialog v-if="isDialog" @closeDialog="closeDialog" @submitData="submitData"></del-dialog>
+    <del-dialog v-if="isDialog" @closeDialog="closeDialog" @submitData="submitData" :title="delTitle"></del-dialog>
   </div>
 </template>
 <script>
@@ -36,12 +39,15 @@ import GoBack from '@/components/GoBack'
 import SearchBox from '@/components/SearchBox'
 import tlTable from '@/components/Table'
 import DelDialog from '@/components/DelDialog'
+import { GetReviewByID, ReviewIsEnable, DelReview } from '@/api/index'
 export default {
   name: 'CourseComment',
   data () {
     return {
+      courseTitle: '所有课程商课程评论',
       // 搜索框提示文字
       placeholder: '请输入人名查找',
+      delTitle: '删除',
       // 表格配置
       dataTable: {
         border: true,
@@ -50,37 +56,32 @@ export default {
           {
             id: '1',
             label: 'ID',
-            prop: 'id',
+            prop: 'ReviewID',
             minWidth: '100'
           },
           {
             id: '2',
             label: '评论人',
-            prop: 'name'
+            prop: 'Name'
           },
           {
             id: '3',
             label: '手机号',
-            prop: 'tel',
-            minWidth: '140'
-          },
-          {
-            id: '4',
-            label: '公司名称',
-            prop: 'coursename',
+            prop: 'LoginMobile',
             minWidth: '140'
           },
           {
             id: '5',
             label: '评论星级',
-            prop: 'rate',
+            prop: 'Star',
             sort: true,
             minWidth: '140'
           },
           {
             id: '6',
             label: '评论时间',
-            prop: 'subtime',
+            prop: 'dateTime',
+            show: 'template',
             sort: true,
             minWidth: '140'
           },
@@ -109,37 +110,38 @@ export default {
           ]
         }
       },
-      // 全部数据
-      allData: [
-        {
-          id: 1,
-          name: '张三',
-          tel: '1381381381',
-          coursename: '科技公司',
-          rate: 5,
-          switchVal: 1,
-          subtime: '2019-3-21'
-        },
-        {
-          id: 2,
-          name: '王栓蛋',
-          tel: '1381381381',
-          coursename: '科技公司',
-          rate: 4,
-          switchVal: 0,
-          subtime: '2019-3-25'
-        }
-      ],
       // 控制弹出层
       isDialog: false,
       // 需要删除的数据
-      isDelInfo: []
+      isDelInfo: [],
+      // 课程ID
+      courseID: 0,
+      name: '',
+      pagesize: 15,
+      pageindex: 1,
+      // 总条数
+      tableTotal: 0
     }
   },
   created () {
-    this.dataTable.data = this.allData
+    if (this.$route.params.CourseID) {
+      this.courseID = this.$route.params.CourseID
+      this.courseTitle = '课程名称：' + this.$route.params.Name
+    }
+    this._getReview()
   },
   methods: {
+    // 获取评论列表
+    async _getReview () {
+      let result = await GetReviewByID({
+        courseID: this.courseID,
+        name: this.name,
+        pagesize: this.pagesize,
+        pageindex: this.pageindex
+      })
+      this.dataTable.data = result.Data
+      this.tableTotal = result.Count
+    },
     // 删除按钮点击
     handleDel (val) {
       this.isDelInfo = val
@@ -150,18 +152,36 @@ export default {
       this.isDialog = val
     },
     // 提交删除请求
-    submitData (val) {
-      console.log(this.isDelInfo, '发送删除请求')
+    async submitData (val) {
+      let result = await DelReview({
+        reviewID: this.isDelInfo.ReviewID
+      })
+      if (result.Code === 200) {
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+      }
       this.isDialog = val
+      this._getReview()
     },
     // 搜索按钮点击或按下回车键
     searchData (val) {
-      if (val) {
-        this.dataTable.data = this.allData.filter(item => item.name.includes(val))
-      } else {
-        this.dataTable.data = this.allData
+      this.name = val
+      this._getReview()
+    },
+    // 状态改变
+    async changeSwitch (val) {
+      let result = await ReviewIsEnable({
+        reviewID: val.ReviewID,
+        isEnable: val.IsShow
+      })
+      if (result.Code === 200) {
+        this.$message({
+          message: '状态修改成功',
+          type: 'success'
+        })
       }
-      console.log(val)
     }
   },
   components: {

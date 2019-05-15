@@ -60,6 +60,7 @@
           <el-table-column
             v-if="item.show !== false && item.show === 'template'"
             align="center"
+            :sortable="item.sort?true:false"
             :label="item.label"
             :class-name="item.className ? item.className : ''"
             :key="item.id"
@@ -97,6 +98,7 @@
               :type="item.type"
               :key="item.id"
               :size="item.size"
+              :disabled="item.filterTag ? Boolean(scope.row.State) : false" 
               @click.stop="handleOperation(scope.row, scope.$index, item.id)">{{ item.label }}</el-button>
           </template>
         </el-table-column>

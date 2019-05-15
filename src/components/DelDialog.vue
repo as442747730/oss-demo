@@ -66,6 +66,7 @@ p {
   width: 368px;
   height: 210px;
   background-color: #fff;
+  border-radius: 10px;
 }
 .deldialog .dialog h2 {
   margin: 0;
@@ -76,6 +77,7 @@ p {
   line-height: 40px;
   padding-left: 15px;
   color: #fff;
+  border-radius: 10px 10px 0 0;
 }
 .deldialog .dialog .dialog-container {
   padding: 36px 52px;

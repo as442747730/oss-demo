@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="title" :visible.sync="dialogFormVisible">
+  <el-dialog :title="title" :visible.sync="dialogFormVisible" width="35%">
     <el-form :model="addForm" label-width="100px" :rules="rules" ref="addForm">
       <el-form-item label="分类名称" prop="name">
         <el-input v-model="addForm.name" placeholder="请请输入分类名称"></el-input>
@@ -8,7 +8,7 @@
         <el-cascader
           :props="fileType"
           placeholder="请选择上级分类"
-          :options="GetAllClass"
+          :options="options"
           filterable
           change-on-select
           v-model="higherClass"
@@ -57,6 +57,7 @@ export default {
       addForm: {
         name: ''
       },
+      options: [],
       // 上级分类
       higherClass: [],
       // 级联菜单数据结构
@@ -72,6 +73,7 @@ export default {
   },
   created () {
     this._setDialogInfo()
+    this.options = this.getTreeData(this.deepClone(this.GetAllClass))
   },
   computed: {
     ...mapState(['GetAllClass'])
@@ -129,6 +131,40 @@ export default {
           return false
         }
       })
+    },
+    // 递归选择器
+    getTreeData (data) {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].Nodes.length < 1) {
+          data[i].Nodes = undefined
+        } else {
+          this.getTreeData(data[i].Nodes)
+        }
+      }
+      return data
+    },
+    // 深拷贝
+    deepClone (obj) {
+      let newObj = []
+      if (Array.isArray(obj)) {
+        newObj = []
+      } else if (typeof obj === 'object') {
+        newObj = {}
+      } else {
+        newObj = obj
+      }
+      if (typeof obj === 'object') {
+        for (let item in obj) {
+          if (obj.hasOwnProperty(item)) {
+            if (obj[item] && typeof obj[item] === 'object') {
+              newObj[item] = this.deepClone(obj[item])
+            } else {
+              newObj[item] = obj[item]
+            }
+          }
+        }
+      }
+      return newObj
     }
   },
   watch: {
@@ -141,3 +177,9 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.dialog-footer {
+  display: flex;
+  justify-content: space-around;
+}
+</style>
